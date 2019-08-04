@@ -11,7 +11,7 @@ mirrorlist_update() {
     # Do not know if using /tmp/mirrorlist is needed but I think it isn't a good idea to change the file as I'm reading to it.
     # If this sin't aproblem it is better to output directly to /etc/pacman.d/mirrorlist
     echo "$(grep -A 1 "^## $country$" /etc/pacman.d/mirrorlist; cat /etc/pacman.d/mirrorlist)" > /tmp/mirrorlist
-    sed -i "d/\-\-/" /tmp/mirrorlist
+    sed -i "/\-\-/d" /tmp/mirrorlist
     cp /tmp/mirrorlist /etc/pacman.d/mirrorlist
     rm /tmp/mirrorlist
 }
