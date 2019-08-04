@@ -17,7 +17,7 @@ bootloader_install() {
 
     case "$BOOTLDR" in
         "rEFInd")
-            pacman -S --needed refind-efi
+            pacman -S --noconfirm --needed refind-efi
             refind-install
             disk=$(findmnt -o TARGET,SOURCE --list --fstab --noheadings | awk '/^\/\s+/ {print $2}')
             [ -z "$disk" ] && return 3;
