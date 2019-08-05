@@ -63,7 +63,7 @@ main() {
                 "About"                   "About TARBS" \
                 "Exit"                    "Exit TARBS (NO CHANGES WILL BE SAVED)" || return 1
 
-        # TODO: system files, installation
+        # TODO: system files
 
         case ${OPTION// *- OK/} in
             "Bootloader")
@@ -78,6 +78,8 @@ main() {
             "Install")
                 pacman_conf_update
                 mirrorlist_update
+
+                pacman -Syu --noconfirm
 
                 bootloader_install
                 user_add
