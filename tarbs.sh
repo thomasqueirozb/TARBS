@@ -9,6 +9,7 @@ source ./scripts/dialog.sh
 source ./scripts/bootloader.sh
 source ./scripts/user.sh
 source ./scripts/mirrorlist.sh
+source ./scripts/pacman_conf.sh
 source ./scripts/default_packages.sh
 source ./scripts/optional_packages.sh
 

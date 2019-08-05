@@ -2,6 +2,6 @@
 
 
 optional_packages_install() {
-    pacman -S --needed --noconfirm < optional_packages.txt
+    pacman -S --needed --noconfirm < helper_files/optional_packages.txt
 }
 

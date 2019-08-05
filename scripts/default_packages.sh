@@ -2,5 +2,5 @@
 
 
 default_packages_install() {
-    pacman -S --needed --noconfirm < default_packages.txt
+    pacman -S --needed --noconfirm < helper_files/default_packages.txt
 }
