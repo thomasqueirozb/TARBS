@@ -1,7 +1,7 @@
 linux-headers
 acpi_call
 bash-completion
-gtk
+gtk3
 xorg
 xorg-xinit
 pulseaudio
@@ -12,11 +12,11 @@ xcape
 sxhkd
 i3blocks
 acpi
-mpstat
+sysstat
 dunst
 xclip
 ttf-ubuntu-font-family
-xorg-xfontcel
+xorg-xfontsel
 dmenu
 git
 flameshot
