@@ -18,19 +18,42 @@ bootloader_install() {
     case "$BOOTLDR" in
         "rEFInd")
             pacman -S --noconfirm --needed refind-efi
-            refind-install
-            disk=$(findmnt -o TARGET,SOURCE --list --fstab --noheadings | awk '/^\/\s+/ {print $2}')
+            refind-install || return 4;
+
+            disk=$(findmnt / -o SOURCE --noheadings)
             [ -z "$disk" ] && return 3;
-            sed "s/\$IDENTIFIER/$disk/g" ./helper_files/refind_linux.conf > /boot/refind_linux.conf
+            PARTUUID=$(blkid -o value -s PARTUUID "$disk")
+            [ -z "$PARTUUID" ] && echo no partuuid
+
+            ID="PARTUUID=$PARTUUID"
+
+            sed "s/\$IDENTIFIER/$ID/g" ./helper_files/refind_linux.conf > /boot/refind_linux.conf
             ;;
         "systemd-boot")
-            bootctl --path=/boot install
-            disk=$(findmnt -o TARGET,SOURCE --list --fstab --noheadings | awk '/^\/\s+/ {print $2}')
+            bootctl --path=/boot install || return 4;
+
+            disk=$(findmnt / -o SOURCE --noheadings)
             [ -z "$disk" ] && return 3;
+            PARTUUID=$(blkid -o value -s PARTUUID "$disk")
+            [ -z "$PARTUUID" ] && echo no partuuid
+
+            ID="PARTUUID=$PARTUUID"
+
             mkdir -p /boot/loader/entries/
-            sed "s/\$IDENTIFIER/$disk/g" ./helper_files/arch.conf > /boot/loader/entries/arch.conf
+            sed "s/\$IDENTIFIER/$ID/g" ./helper_files/arch.conf > /boot/loader/entries/arch.conf
             cat ./helper_files/loader.conf > /boot/loader/loader.conf
-            bootctl --path=/boot update
+            bootctl --path=/boot update || return 4;
+            ;;
+        "grub")
+            pacman -S --noconfirm --needed efibootmgr grub os-prober
+            disk=$(findmnt / -o SOURCE --noheadings)
+            [ -z "$disk" ] && return 3;
+
+            if grub-install --efi-directory=/boot "$disk"; then
+                grub-mkconfig -o /boot/grub/grub.cfg
+            else
+                return 4;
+            fi
             ;;
         "None"|*)
             return 0;

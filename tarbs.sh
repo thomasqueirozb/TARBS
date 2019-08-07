@@ -6,11 +6,17 @@ SHL=$((LINES - 20))
 ANS=./ANSWER
 
 source ./scripts/dialog.sh
+
 source ./scripts/bootloader.sh
+
 source ./scripts/user.sh
+
+source ./scripts/system_files.sh
 source ./scripts/mirrorlist.sh
 source ./scripts/pacman_conf.sh
+
 source ./scripts/default_packages.sh
+
 source ./scripts/optional_packages.sh
 
 
@@ -65,7 +71,9 @@ main() {
 
         # TODO: system files
 
-        case ${OPTION// *- OK/} in
+        # Doesn't work with variables with spaces in it
+        # case ${OPTION// *- OK/} in
+        case $(echo $OPTION | sed 's/ *- OK//g') in
             "Bootloader")
                 bootloader
                 ;;
@@ -74,17 +82,18 @@ main() {
                 ;;
             "System Files")
                 system_files
+                echo a >> sf.txt
                 ;;
             "Install")
-                pacman_conf_update
-                mirrorlist_update
+                # pacman_conf_update
+                # mirrorlist_update
 
-                pacman -Syu --noconfirm
+                # pacman -Syu --noconfirm
 
-                bootloader_install
-                user_add
-                default_packages_install
-                optional_packages_install
+                # bootloader_install
+                # user_add
+                # default_packages_install
+                # optional_packages_install
 
                 ;;
             "About")
@@ -101,4 +110,4 @@ main
 clear
 
 echo "$OPTION"
-echo "BOOT: $BOOTLDR"
+echo "${OPTION// *- OK/}"
