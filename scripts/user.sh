@@ -16,18 +16,21 @@ user() {
             "Repeat:"    9 1 ''   9 11 "$COLUMNS" 0 1 2>"$ANS" || return 1
 
         while read -r line; do
+            echo "$i $line" >> lines
             case $i in
                 0) u="$line" ;;
                 1) p="$line" ;;
                 2) p2="$line" ;;
-                3) rp="$line" ;;
-                4) rp2="$line" ;;
+                4) rp="$line" ;;
+                5) rp2="$line" ;;
             esac
             (( i++ ))
         done < "$ANS"
 
         # root passwords empty, so use the user passwords
         [[ -z $rp && -z $rp2 ]] && { rp="$p"; rp2="$p2"; }
+
+        echo -e "USER : $u\\nPASS : $p\\nPASS2: $p2\\nROOT\\nPASS :$rp\\nPASS2:$rp2" > pass_debug
 
         # make sure a username was entered and that the passwords match
         if [[ ${#u} -eq 0 || $u =~ \ |\' || $u =~ [^a-z0-9] ]]; then
