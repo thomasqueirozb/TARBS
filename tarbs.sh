@@ -73,7 +73,7 @@ main() {
 
         # Doesn't work with variables with spaces in it
         # case ${OPTION// *- OK/} in
-        case $(echo $OPTION | sed 's/ *- OK//g') in
+        case "$(echo "$OPTION" | sed 's/ *- OK//g')" in
             "Bootloader")
                 bootloader
                 ;;
@@ -82,7 +82,6 @@ main() {
                 ;;
             "System Files")
                 system_files
-                echo a >> sf.txt
                 ;;
             "Install")
                 # pacman_conf_update
