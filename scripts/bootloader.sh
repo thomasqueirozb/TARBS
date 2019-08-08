@@ -43,6 +43,7 @@ bootloader_install() {
             sed "s/\$IDENTIFIER/$ID/g" ./helper_files/arch.conf > /boot/loader/entries/arch.conf
             cat ./helper_files/loader.conf > /boot/loader/loader.conf
             bootctl --path=/boot update || return 4;
+            cp ./helper_files/100-systemd-boot.hook /etc/pacman.d/hooks/100-systemd-boot.hook
             ;;
         "grub")
             pacman -S --noconfirm --needed efibootmgr grub os-prober

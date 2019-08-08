@@ -84,15 +84,15 @@ main() {
                 system_files
                 ;;
             "Install")
-                # pacman_conf_update
-                # mirrorlist_update
+                pacman_conf_update
+                mirrorlist_update
 
-                # pacman -Syu --noconfirm
+                pacman -Syu --noconfirm
 
-                # bootloader_install
-                # user_add
-                # default_packages_install
-                # optional_packages_install
+                bootloader_install
+                user_add
+                default_packages_install
+                optional_packages_install
 
                 ;;
             "About")
