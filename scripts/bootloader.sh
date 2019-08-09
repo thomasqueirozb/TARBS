@@ -4,10 +4,10 @@ bootloader() {
     dlg BOOTLDR menu "BIOS Bootloader" "\nSelect which bootloader to use." \
             "rEFInd"         "rEFInd is a UEFI boot manager capable of launching EFISTUB kernels. It is designed to be platform-neutral and to simplify booting multiple OSes" \
             "systemd-boot"   "Default boot loader for systemd. Only supports EFI" \
-            "grub - NO"      "The Grand Unified Bootloader, standard among many Linux distributions" \
-            "syslinux - NO"  "A collection of boot loaders for booting drives, CDs, or over the network. Mainly used for non-EFI systems" \
+            "grub"      "The Grand Unified Bootloader, standard among many Linux distributions" \
             "None"           "I already have a bootloader installed"
 
+            # "syslinux - NO"  "A collection of boot loaders for booting drives, CDs, or over the network. Mainly used for non-EFI systems" \
     [ -n "$BOOTLDR" ] && BL=$BL_OK
 }
 
