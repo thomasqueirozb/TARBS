@@ -28,6 +28,7 @@ bootloader_install() {
             ID="PARTUUID=$PARTUUID"
 
             sed "s/\$IDENTIFIER/$ID/g" ./helper_files/refind_linux.conf > /boot/refind_linux.conf
+            cp ./helper_files/refind.hook /etc/pacman.d/hooks/ || return 5
             ;;
         "systemd-boot")
             bootctl --path=/boot install || return 4;
