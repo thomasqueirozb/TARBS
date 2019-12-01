@@ -28,6 +28,8 @@ bootloader_install() {
             ID="PARTUUID=$PARTUUID"
 
             sed "s/\$IDENTIFIER/$ID/g" ./helper_files/refind_linux.conf > /boot/refind_linux.conf
+
+            [ -f /etc/pacman.d/hooks/ ] || mkdir -p /etc/pacman.d/hooks/
             cp ./helper_files/refind.hook /etc/pacman.d/hooks/ || return 5
             ;;
         "systemd-boot")
@@ -44,6 +46,8 @@ bootloader_install() {
             sed "s/\$IDENTIFIER/$ID/g" ./helper_files/arch.conf > /boot/loader/entries/arch.conf
             cat ./helper_files/loader.conf > /boot/loader/loader.conf
             bootctl --path=/boot update || return 4;
+
+            [ -f /etc/pacman.d/hooks/ ] || mkdir -p /etc/pacman.d/hooks/
             cp ./helper_files/100-systemd-boot.hook /etc/pacman.d/hooks/100-systemd-boot.hook
             ;;
         "grub")
@@ -56,6 +60,9 @@ bootloader_install() {
             else
                 return 4;
             fi
+
+            # TODO add grub hook
+            # [ -f /etc/pacman.d/hooks/ ] || mkdir -p /etc/pacman.d/hooks/
             ;;
         "None"|*)
             return 0;
