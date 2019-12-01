@@ -30,7 +30,7 @@ bootloader_install() {
             sed "s/\$IDENTIFIER/$ID/g" ./helper_files/refind_linux.conf > /boot/refind_linux.conf
 
             [ -f /etc/pacman.d/hooks/ ] || mkdir -p /etc/pacman.d/hooks/
-            cp ./helper_files/refind.hook /etc/pacman.d/hooks/ || return 5
+            cp ./helper_files/refind.hook /etc/pacman.d/hooks/refind.hook || return 5
             ;;
         "systemd-boot")
             bootctl --path=/boot install || return 4;
@@ -44,7 +44,7 @@ bootloader_install() {
 
             mkdir -p /boot/loader/entries/
             sed "s/\$IDENTIFIER/$ID/g" ./helper_files/arch.conf > /boot/loader/entries/arch.conf
-            cat ./helper_files/loader.conf > /boot/loader/loader.conf
+            cp ./helper_files/loader.conf /boot/loader/loader.conf
             bootctl --path=/boot update || return 4;
 
             [ -f /etc/pacman.d/hooks/ ] || mkdir -p /etc/pacman.d/hooks/
